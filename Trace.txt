@@ -1,0 +1,26 @@
+======================================
+Trace.txt:
+
+Main -> Fibonacci -> prev 0
+Main -> Fibonacci -> curr 1
+Main -> Fibonacci -> temp 1
+Main -> Fibonacci@1 prev 1
+Main -> Fibonacci@1 curr 1
+Main -> Fibonacci@1 temp 2
+Main -> Fibonacci@2 prev 1
+Main -> Fibonacci@2 curr 2
+Main -> Fibonacci@2 temp 3
+Main -> Fibonacci@3 prev 2
+Main -> Fibonacci@3 curr 3
+Main -> Fibonacci@3 temp 5
+Main -> Fibonacci@4 prev 3
+Main -> Fibonacci@4 curr 5
+Main -> Fibonacci@4 temp 8
+Main -> Fibonacci@5 prev 5
+Main -> Fibonacci@5 curr 8
+Main -> result 8
+
+curr: 8
+prev: 5
+result: 8
+temp: 8
