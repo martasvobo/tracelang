@@ -1,6 +1,3 @@
-// TraceLang - Trace Feature Demo
-// Shows how trace tracks variable history
-
 print("=== Simple Trace Demo ===");
 trace int x = 0;
 x = 5;

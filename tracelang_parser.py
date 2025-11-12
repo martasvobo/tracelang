@@ -1,6 +1,6 @@
-# tracelang_parser.py
 import ply.yacc as yacc
 
+# Required for the parser to know the tokens
 from tracelang_lexer import tokens
 
 # Precedence and associativity

@@ -1,6 +1,3 @@
-// TraceLang - Fibonacci with Trace Example
-// This demonstrates the unique trace feature
-
 function int fibonacci(int n) {
     if (n <= 1) {
         return n;

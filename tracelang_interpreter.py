@@ -1,9 +1,4 @@
-# tracelang_interpreter.py
-import sys
-
-
 class TraceSystem:
-    """System for tracking variable history"""
 
     def __init__(self):
         self.traces = {}  # {var_name: [history of values]}
@@ -95,7 +90,6 @@ class ReturnException(Exception):
 
 
 def run(node, env, trace_system, functions=None):
-    """Execute AST node"""
     if functions is None:
         functions = {}
 
@@ -104,17 +98,14 @@ def run(node, env, trace_system, functions=None):
 
     nodetype = node[0]
 
-    # Program
     if nodetype == "program":
         for stmt in node[1]:
             run(stmt, env, trace_system, functions)
 
-    # Block
     elif nodetype == "block":
         for stmt in node[1]:
             run(stmt, env, trace_system, functions)
 
-    # Variable declaration
     elif nodetype == "declare":
         _, var_type, name, init_value, is_traced = node
         value = (
@@ -127,7 +118,6 @@ def run(node, env, trace_system, functions=None):
             trace_system.mark_traced(name)
             trace_system.update(name, value)
 
-    # Assignment
     elif nodetype == "assign":
         _, name, expr = node
         value = run(expr, env, trace_system, functions)
@@ -139,7 +129,6 @@ def run(node, env, trace_system, functions=None):
         if name in trace_system.trace_vars:
             trace_system.update(name, value)
 
-    # Array assignment
     elif nodetype == "array_assign":
         _, name, index_expr, value_expr = node
         array = env.get(name)
@@ -153,7 +142,6 @@ def run(node, env, trace_system, functions=None):
             raise IndexError(f"Array index {index} out of range")
         array[index] = value
 
-    # Compound assignment
     elif nodetype == "compound_assign":
         _, name, op, expr = node
         current = env.get(name)
@@ -170,7 +158,6 @@ def run(node, env, trace_system, functions=None):
         if name in trace_system.trace_vars:
             trace_system.update(name, result)
 
-    # Increment/Decrement
     elif nodetype == "inc_dec":
         _, name, op = node
         current = env.get(name)
@@ -179,7 +166,6 @@ def run(node, env, trace_system, functions=None):
         if name in trace_system.trace_vars:
             trace_system.update(name, result)
 
-    # If statement
     elif nodetype == "if":
         _, condition, then_stmt, else_stmt = node
         if run(condition, env, trace_system, functions):
@@ -187,13 +173,11 @@ def run(node, env, trace_system, functions=None):
         elif else_stmt:
             run(else_stmt, env, trace_system, functions)
 
-    # While loop
     elif nodetype == "while":
         _, condition, body = node
         while run(condition, env, trace_system, functions):
             run(body, env, trace_system, functions)
 
-    # For loop
     elif nodetype == "for":
         _, init, condition, update, body = node
         loop_env = Environment(env)
@@ -204,30 +188,25 @@ def run(node, env, trace_system, functions=None):
             if update:
                 run(update, loop_env, trace_system, functions)
 
-    # Function declaration
     elif nodetype == "function":
         _, return_type, name, params, body = node
         functions[name] = (return_type, params, body)
 
-    # Return statement
     elif nodetype == "return":
         _, value = node
         result = run(value, env, trace_system, functions) if value else None
         raise ReturnException(result)
 
-    # Print statement
     elif nodetype == "print":
         value = run(node[1], env, trace_system, functions)
         print(value)
 
-    # Binary operations
     elif nodetype == "binop":
         _, op, left, right = node
         l = run(left, env, trace_system, functions)
         r = run(right, env, trace_system, functions)
 
         if op == "+":
-            # Handle string concatenation with automatic type conversion
             if isinstance(l, str) or isinstance(r, str):
                 return str(l) + str(r)
             return l + r
@@ -258,7 +237,6 @@ def run(node, env, trace_system, functions=None):
         elif op == "||":
             return l or r
 
-    # Unary operations
     elif nodetype == "unop":
         _, op, expr = node
         value = run(expr, env, trace_system, functions)
@@ -267,7 +245,6 @@ def run(node, env, trace_system, functions=None):
         elif op == "-":
             return -value
 
-    # Literals
     elif nodetype == "num":
         return node[1]
 
@@ -280,16 +257,13 @@ def run(node, env, trace_system, functions=None):
     elif nodetype == "bool":
         return node[1]
 
-    # Variable reference
     elif nodetype == "var":
         return env.get(node[1])
 
-    # Array literal
     elif nodetype == "array":
         _, elements = node
         return [run(elem, env, trace_system, functions) for elem in elements]
 
-    # Array access
     elif nodetype == "array_access":
         _, name, index_expr = node
         array = env.get(name)
@@ -302,11 +276,9 @@ def run(node, env, trace_system, functions=None):
             raise IndexError(f"Array index {index} out of range")
         return array[index]
 
-    # Function call
     elif nodetype == "call":
         _, func_name, args = node
 
-        # Built-in function: length
         if func_name == "length":
             if len(args) != 1:
                 raise TypeError(
@@ -317,7 +289,6 @@ def run(node, env, trace_system, functions=None):
                 raise TypeError("length() argument must be an array")
             return len(arr)
 
-        # User-defined function
         if func_name not in functions:
             raise NameError(f"Function '{func_name}' is not defined")
 
@@ -353,7 +324,6 @@ def run(node, env, trace_system, functions=None):
 
 
 def get_default_value(var_type):
-    """Get default value for a type"""
     if var_type == "int":
         return 0
     elif var_type == "float":
