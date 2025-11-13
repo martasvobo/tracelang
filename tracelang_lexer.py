@@ -41,6 +41,7 @@ tokens = (
     "RBRACKET",
     "SEMICOLON",
     "COMMA",
+    "AT",
     # Keywords
     "IF",
     "ELSE",
@@ -93,6 +94,7 @@ t_LBRACKET = r"\["
 t_RBRACKET = r"\]"
 t_SEMICOLON = r";"
 t_COMMA = r","
+t_AT = r"@"
 
 reserved = {
     "if": "IF",

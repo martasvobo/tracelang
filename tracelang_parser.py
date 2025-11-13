@@ -258,6 +258,11 @@ def p_expression_id(p):
     p[0] = ("var", p[1])
 
 
+def p_expression_trace_access(p):
+    """expression : ID AT NUMBER"""
+    p[0] = ("trace_access", p[1], p[3])
+
+
 def p_expression_array_literal(p):
     """expression : LBRACKET argument_list RBRACKET
     | LBRACKET RBRACKET"""

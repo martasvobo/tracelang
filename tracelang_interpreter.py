@@ -260,6 +260,19 @@ def run(node, env, trace_system, functions=None):
     elif nodetype == "var":
         return env.get(node[1])
 
+    elif nodetype == "trace_access":
+        _, name, index = node
+        if name not in trace_system.trace_vars:
+            raise NameError(f"Variable '{name}' is not traced")
+        if name not in trace_system.traces or not trace_system.traces[name]:
+            raise ValueError(f"No history available for traced variable '{name}'")
+        history = trace_system.traces[name]
+        if index < 0 or index >= len(history):
+            raise IndexError(
+                f"History index {index} out of range for variable '{name}' (0-{len(history)-1})"
+            )
+        return history[index]
+
     elif nodetype == "array":
         _, elements = node
         return [run(elem, env, trace_system, functions) for elem in elements]
