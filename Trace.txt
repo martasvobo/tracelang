@@ -1,19 +1,34 @@
 ======================================
 Trace.txt:
 
-Main -> counter 0
-Main@1 counter 10
-Main@2 counter 20
-Main@3 counter 30
-Main -> loopVar 1
-Main@1 loopVar 2
-Main@2 loopVar 4
-Main@3 loopVar 8
-Main@4 loopVar 16
-Main -> price 100.0
-Main@1 price 110.00000000000001
-Main@2 price 99.00000000000001
+Main -> x 0
+Main@1 x 5
+Main@2 x 10
+Main@3 x 15
+Main -> sum 0
+Main@1 sum 1
+Main@2 sum 3
+Main@3 sum 6
+Main@4 sum 10
+Main@5 sum 15
+Main -> Factorial -> result 1
+Main -> Factorial@1 result 2
+Main -> Factorial@2 result 6
+Main -> Factorial@3 result 24
+Main -> Factorial@4 result 120
+Main -> fact5 120
+Main -> a 1
+Main -> b 2
+Main -> c 0
+Main@1 c 3
+Main@1 a 2
+Main@1 b 5
+Main@2 c 7
 
-counter: 30
-loopVar: 16
-price: 99.00000000000001
+a: 2
+b: 5
+c: 7
+fact5: 120
+result: 120
+sum: 15
+x: 15

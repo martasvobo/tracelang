@@ -42,3 +42,6 @@ b = b + 3;
 c = a + b;
 
 print("Final values: a=" + a + ", b=" + b + ", c=" + c);
+print(c@1);
+print(c@0);
+print(c@3);
